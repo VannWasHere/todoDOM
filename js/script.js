@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // If Submit button clicked
     form_submit.addEventListener('submit', (event) => {
+        // Reset Input
+        input_title.innerText = "";
+        document.getElementById('todo-date').innerText = "";
         event.preventDefault(event);
         addToList();
     });
