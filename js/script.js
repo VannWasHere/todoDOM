@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // If Submit button clicked
     form_submit.addEventListener('submit', (event) => {
         // Reset Input
-        input_title.innerText = "";
-        document.getElementById('todo-date').innerText = "";
-        event.preventDefault(event);
         addToList();
+        input_title.value = "";
+        document.getElementById('todo-date').value = "";
+        event.preventDefault(event);
     });
     
     const max_input = input_title.getAttribute('maxlength');
