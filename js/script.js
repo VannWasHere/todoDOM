@@ -42,12 +42,9 @@ const getTodoItemByID = todoId => {
 }
 const findTodo = (todoId) => {
     for(const item in todos) {
-        if(todos[item].id == todoId) { 
-        return item;
-        }
+        if(todos[item].id == todoId) return item;
     }
     return -1;
-
 }
 
 /* CRUD Statement */
