@@ -34,17 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
 // Generate ID and Object
 const generateId = () => +new Date
 const generateTodoObject = (id, title, estimated_date, isCompleted) => {return {id, title, estimated_date, isCompleted}};
-const addListIntoComplete = todoId => {
-    const todoTarget = getTodoItemByID(todoId);
-    if(todoTarget == null) return;
-    todoTarget.isCompleted = true;
-    document.dispatchEvent(new Event(RENDER_EVENT))
-}
 const getTodoItemByID = todoId => {
     for(const item of todos) {
         if(item.id == todoId) return item;
     }
     return null;
+}
+const findTodo = (todoId) => {
+    for(const item of todos) {
+        if(todos[item].id == todoId) return item;
+    }
+    return -1;
 }
 
 /* CRUD Statement */
@@ -81,46 +81,81 @@ const makeList = (listTodoObject) => {
     root_items.setAttribute('id', `id-${listTodoObject.id}`);
     root_items.append(itemsContainer);
 
+    // Container for icons
+    const icon_container = document.createElement('div');
+    icon_container.setAttribute('class', 'icon-container');
+    
     if(listTodoObject.isCompleted) {
+
         const makeUndoButton = document.createElement('button');
         makeUndoButton.classList.add('undo-button');
 
         makeUndoButton.addEventListener('click', () => {
-            undoComplete(listTodoObject.id)
+            undoTask(listTodoObject.id)
         });
 
-        const deleteTask = document.createElemente('button');
+        const deleteTask = document.createElement('button');
         deleteTask.classList.add('delete-button');
         
         deleteTask.addEventListener('click', () => {
             removeTask(listTodoObject.id);
         });
 
-        root_items.append(makeUndoButton, deleteTask)
+        icon_container.append(makeUndoButton, deleteTask);
+        root_items.append()
     } else {
         const checkButton = document.createElement('button');
         checkButton.classList.add('finish-button');
 
         checkButton.addEventListener('click', () => {
-            addToCompleteList(listTodoObject.id);
+            addListIntoComplete(listTodoObject.id);
         });
-
-        root_items.append(checkButton);
+        icon_container.append(checkButton);
     }
-
+    root_items.append(icon_container);
     return root_items;
 }
 
+// Finishing Task
+const addListIntoComplete = todoId => {
+    const todoTarget = getTodoItemByID(todoId);
+    if(todoTarget == null) return;
+    todoTarget.isCompleted = true;
+    document.dispatchEvent(new Event(RENDER_EVENT))
+}
+
+// Undo Checked List
+const undoTask = (todoId) => {
+    const target = getTodoItemByID(todoId);
+    if(target == null) return;
+    target.isCompleted = false;
+    document.dispatchEvent(new Event(RENDER_EVENT));
+}
+
+// Delete task
+const removeTask = (todoId) => {
+    const target = findTodo(todoId);
+    if(target == null) return;
+    todos.splice(target, 1);
+    document.dispatchEvent(new Event(RENDER_EVENT));
+}
 
 // Trigger to make object
 document.addEventListener(RENDER_EVENT, function () {
+    // Unfinished Todo
     const uncompletedTODO = document.getElementById('todos');
     uncompletedTODO.innerHTML = '';
 
-    for(const todoItems of todos) {
-        const todoItem = makeList(todoItems);
-        if(!todoItem.isCompleted) {
-            uncompletedTODO.append(todoItem);
+    // Finisihed Todo
+    const checkedTodo = document.getElementById('finished-todo');
+    checkedTodo.innerHTML = '';
+
+    for (const items of todos) {
+        const itemCreated = makeList(items);
+        if(!items.isCompleted) {
+            uncompletedTODO.append(itemCreated);
+        } else {
+            checkedTodo.append(itemCreated);
         }
     }
 });

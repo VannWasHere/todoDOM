@@ -33,6 +33,7 @@ header nav {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 50px;
 }
 
 .container>div {
@@ -81,9 +82,14 @@ header nav {
 
 .list-container>div {
     padding: 10px;
-    background-color: var(--sec-color);
-    color: var(--text-color);
+    background-color:#ade6a6;
+    color: #272323;
     border-radius: 8px;
+}
+
+.outer {
+    display: flex;
+    justify-content: space-between;
 }
 
 .outer:not(:nth-child(1)) {
@@ -97,4 +103,42 @@ header nav {
 .inner-div>p {
     margin-top: 10px;
     font-size: smaller;
+}
+
+.icon-container {
+    align-self: center;
+}
+
+.icon-container>button:not(:nth-child(1)) {
+    margin-left: 10px;
+}
+
+.finish-button{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    background-image: url('../img/check-logo.png');
+    background-size: contain;
+}
+
+.delete-button {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    background-image: url('../img/delete-logo.png');
+    background-size: cover;
+}
+
+.undo-button {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    background-image: url('../img/undo-logo.png');
+    background-size: contain;
 }
