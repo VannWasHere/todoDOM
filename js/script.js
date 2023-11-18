@@ -41,10 +41,13 @@ const getTodoItemByID = todoId => {
     return null;
 }
 const findTodo = (todoId) => {
-    for(const item of todos) {
-        if(todos[item].id == todoId) return item;
+    for(const item in todos) {
+        if(todos[item].id == todoId) { 
+        return item;
+        }
     }
     return -1;
+
 }
 
 /* CRUD Statement */
@@ -84,7 +87,7 @@ const makeList = (listTodoObject) => {
     // Container for icons
     const icon_container = document.createElement('div');
     icon_container.setAttribute('class', 'icon-container');
-    
+
     if(listTodoObject.isCompleted) {
 
         const makeUndoButton = document.createElement('button');
