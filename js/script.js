@@ -34,6 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
 // Generate ID and Object
 const generateId = () => +new Date
 const generateTodoObject = (id, title, estimated_date, isCompleted) => {return {id, title, estimated_date, isCompleted}};
+const addListIntoComplete = todoId => {
+    const todoTarget = getTodoItemByID(todoId);
+    if(todoTarget == null) return;
+    todoTarget.isCompleted = true;
+    document.dispatchEvent(new Event(RENDER_EVENT))
+}
+const getTodoItemByID = todoId => {
+    for(const item of todos) {
+        if(item.id == todoId) return item;
+    }
+    return null;
+}
 
 /* CRUD Statement */
 // Add Todo
@@ -69,6 +81,33 @@ const makeList = (listTodoObject) => {
     root_items.setAttribute('id', `id-${listTodoObject.id}`);
     root_items.append(itemsContainer);
 
+    if(listTodoObject.isCompleted) {
+        const makeUndoButton = document.createElement('button');
+        makeUndoButton.classList.add('undo-button');
+
+        makeUndoButton.addEventListener('click', () => {
+            undoComplete(listTodoObject.id)
+        });
+
+        const deleteTask = document.createElemente('button');
+        deleteTask.classList.add('delete-button');
+        
+        deleteTask.addEventListener('click', () => {
+            removeTask(listTodoObject.id);
+        });
+
+        root_items.append(makeUndoButton, deleteTask)
+    } else {
+        const checkButton = document.createElement('button');
+        checkButton.classList.add('finish-button');
+
+        checkButton.addEventListener('click', () => {
+            addToCompleteList(listTodoObject.id);
+        });
+
+        root_items.append(checkButton);
+    }
+
     return root_items;
 }
 
@@ -80,6 +119,8 @@ document.addEventListener(RENDER_EVENT, function () {
 
     for(const todoItems of todos) {
         const todoItem = makeList(todoItems);
-        uncompletedTODO.append(todoItem);
+        if(!todoItem.isCompleted) {
+            uncompletedTODO.append(todoItem);
+        }
     }
 });

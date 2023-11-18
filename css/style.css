@@ -70,15 +70,31 @@ header nav {
     padding: 8px;
     width: 100px;
     border-radius: 8px;
-    background-color: var(--sec-color);
+    background-color: var(--third-color);
     color: var(--text-color);
     border: none;
 }
 
 .list-container {
-    padding: 10px;
+    margin-top: 10px;
 }
 
 .list-container>div {
     padding: 10px;
+    background-color: var(--sec-color);
+    color: var(--text-color);
+    border-radius: 8px;
+}
+
+.outer:not(:nth-child(1)) {
+    margin-top: 20px;
+}
+
+.inner-div>h4 {
+    font-size: 24px;
+}
+
+.inner-div>p {
+    margin-top: 10px;
+    font-size: smaller;
 }
